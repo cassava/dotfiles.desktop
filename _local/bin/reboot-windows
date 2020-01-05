@@ -1,0 +1,4 @@
+#!/bin/bash
+
+efibootmgr -n 0002
+reboot

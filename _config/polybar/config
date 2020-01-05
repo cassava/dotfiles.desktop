@@ -1,0 +1,473 @@
+; vim: set ft=dosini cc=80:
+;
+; This configuration makes use of icons provided by the Nerd Font
+; collection. See https://nerdfonts.com/
+;
+; The following Vim macro is useful for inserting unicode characters:
+;
+;   viw:s/0x\x\{4}/\=nr2char(str2nr(submatch(0), 16))/
+;
+
+[palette]
+; The color palette below is derived from the Gruvbox theme.
+; See: https://github.com/morhetz/gruvbox
+bg = ${palette.bg0_h}
+bg0_h = #1d2021
+bg0_s = #32302f
+bg0 =   #282828
+bg1 =   #3c3836
+bg2 =   #504945
+bg3 =   #665c54
+bg4 =   #7c6f64
+
+fg = ${palette.fg0_h}
+fg0_h = #f9f5d7
+fg0_s = #f2e5bc
+fg0 =   #fbf1c7
+fg1 =   #ebdbb2
+fg2 =   #d5c4a1
+fg3 =   #bdae93
+fg4 =   #a89984
+
+red =           #cc241d
+bright_red =    #fb4934
+green =         #98971a
+bright_green =  #b8bb26
+yellow =        #d79921
+bright_yellow = #fabd2f
+blue =          #458588
+bright_blue =   #83a598
+purple =        #b16286
+bright_purple = #d3869b
+aqua =          #689d6a
+bright_aqua =   #8ec07c
+gray =          #928374
+bright_gray =   #a89984
+orange =        #d65d0e
+bright_orange = #fe8019
+
+black = #000000
+white = #ffffff
+
+[colors]
+foreground = ${palette.fg}
+background = ${palette.bg}
+accent =     #af3a03
+border =     ${palette.bg1}
+dimmed =     ${palette.fg4}
+
+; --------------------------------------------------------------------------- ;
+
+[bar/solo]
+enable-ipc = true
+width = 100%
+height = ${xrdb:polybar.height:24}
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-bottom-size = 2
+border-bottom-color = ${colors.border}
+
+overline-size = 2
+overline-color = ${self.background}
+underline-size = 2
+underline-color = ${colors.background}
+
+padding-left = 0
+padding-right = 2
+module-margin-left = 3
+module-margin-right = 3
+
+font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
+font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
+
+modules-left = i3 xwindow
+modules-center =
+modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+
+tray-position = right
+tray-maxsize = 16
+tray-padding = 4
+
+cursor-click = pointer
+
+[bar/dual-primary]
+enable-ipc = true
+width = 100%
+height = ${xrdb:polybar.height:24}
+monitor = ${xrdb:polybar.monitor-primary}
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-bottom-size = 2
+border-bottom-color = ${colors.border}
+
+overline-size = 2
+overline-color = ${self.background}
+underline-size = 2
+underline-color = ${colors.background}
+
+padding-left = 0
+padding-right = 2
+module-margin-left = 3
+module-margin-right = 3
+
+font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
+font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
+
+modules-left = i3 xwindow
+modules-center =
+modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+
+tray-position = right
+tray-maxsize = 16
+tray-padding = 4
+
+cursor-click = pointer
+
+[bar/dual-secondary]
+enable-ipc = true
+width = 100%
+height = ${xrdb:polybar.height:24}
+monitor = ${xrdb:polybar.monitor-secondary}
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-bottom-size = 2
+border-bottom-color = ${colors.border}
+
+overline-size = 2
+overline-color = ${self.background}
+underline-size = 2
+underline-color = ${colors.background}
+
+padding-left = 0
+padding-right = 2
+module-margin-left = 3
+module-margin-right = 3
+
+font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
+font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
+
+modules-left = i3 xwindow
+modules-center =
+modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+
+cursor-click = pointer
+
+; --------------------------------------------------------------------------- ;
+
+[module/i3]
+type = internal/i3
+enable-scroll = false
+enable-click = true
+pin-workspaces = true
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;漣
+ws-icon-default = 
+
+format = <label-state> <label-mode>
+
+label-focused = %icon%  %name%
+label-focused-foreground = ${palette.white}
+label-focused-background = ${colors.border}
+label-focused-overline = ${colors.accent}
+label-focused-padding = 2
+
+label-unfocused = %icon%  %name%
+label-unfocused-overline = ${colors.background}
+label-unfocused-padding = 2
+
+label-urgent = %icon%  %name%
+label-urgent-foreground = ${palette.black}
+label-urgent-background = ${palette.bright_orange}
+label-urgent-overline = ${palette.bright_red}
+label-urgent-padding = 2
+
+label-visible = %icon%  %name%
+label-visible-foreground = ${palette.gray}
+label-visible-padding = 2
+
+[module/keyboard]
+; Symbols: 0xf812
+type = custom/text
+content = %{A1:~/.local/bin/xsetup-keyboard:}  %{A}
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <ramp> <label>
+
+label = %percentage%%
+label-foreground = ${colors.dimmed}
+
+; Symbols: e3d5 e3d6 e3d7 e3d8 e3d9 e3da e3db e3dc e3dd e3de e3df e3e0 e3e1 e3e2 e3e3
+ramp-0 =  
+ramp-1 =  
+ramp-2 =  
+ramp-3 =  
+ramp-4 =  
+ramp-5 =  
+ramp-6 =  
+ramp-7 =  
+ramp-8 =  
+ramp-9 =  
+ramp-10 = 
+ramp-11 = 
+ramp-12 = 
+ramp-13 = 
+ramp-14 = 
+
+[module/battery]
+type = internal/battery
+
+full-at = 98
+label-full = 
+
+format-charging = <animation-charging> <label-charging>
+label-charging = %percentage%%
+label-charging-foreground = ${colors.dimmed}
+
+format-discharging = <ramp-capacity> <label-discharging>
+label-discharging = %percentage%%
+label-discharging-foreground = ${colors.dimmed}
+
+; Symbols: low=0xf579..0xf581 full=0xf578
+ramp-capacity-0 = 
+ramp-capacity-0-color = ${palette.red}
+ramp-capacity-1 = 
+ramp-capacity-1-color = ${palette.orange}
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+
+; Symbols: 0xf585 0xf586 0xf587 0xf588 0xf589 0xf58a 0xf584
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+animation-charging-6 = 
+animation-charging-framerate = 333
+
+[module/wireless-network]
+type = internal/network
+interface = wlp3s0
+interval = 2.0
+ping-interval = 10
+
+; Symbols: connected=0xfaa8 disconnected=0xfaa9
+format-connected = 直 <label-connected>
+label-connected = %essid%
+label-connected-foreground = ${colors.dimmed}
+format-disconnected = <label-disconnected>
+label-disconnected = 睊
+label-disconnected-foreground = ${colors.dimmed}
+
+[module/volume]
+type = internal/pulseaudio
+use-ui-max = false
+interval = 5
+
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+label-volume-foreground = ${colors.dimmed}
+
+; Symbols: mute=0xfc5d
+format-muted = <label-muted>
+label-muted = ﱝ %{F#a89984}%percentage%%%{F-}
+label-muted-foreground = ${palette.red}
+
+; Symbols: low=0xfa7e med=0xfa7f high=0xfa7d
+ramp-volume-0 = 奄
+ramp-volume-1 = 奔
+ramp-volume-2 = 墳
+
+[module/clock]
+type = internal/date
+interval = 1
+
+date = %d.%m.%Y
+time = %H:%M
+date-alt = %d.%m.%Y
+time-alt = %H:%M:%S
+
+; Symbols: calendar=0xf5ef
+format = <label>
+
+label = %{F#a89984}%date%%{F-}   %time%
+label-foreground = ${palette.white}
+
+[module/xwindow]
+type = internal/xwindow
+label-maxlen = 75
+label-foreground = ${colors.dimmed}
+
+[module/powermenu]
+type = custom/menu
+expand-right = false
+
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+
+; Symbols: arch=0xf303 power=0x23fb
+label-open = 
+label-close = ⏻
+label-separator = " | "
+
+menu-0-0 = Logoff
+menu-0-0-foreground = ${colors.accent}
+menu-0-0-exec = i3-msg quit
+menu-0-1 = Suspend
+menu-0-1-foreground = ${colors.accent}
+menu-0-1-exec = suspend
+menu-0-2 = Reboot
+menu-0-2-foreground = ${colors.accent}
+menu-0-2-exec = reboot
+menu-0-3 = Power Off
+menu-0-3-foreground = ${colors.accent}
+menu-0-3-exec = poweroff
+
+[module/filesystem]
+type = internal/fs
+spacing = 4
+
+mount-0 = /
+mount-1 = /home
+
+format-mounted = <label-mounted> <ramp-capacity>
+label-mounted = %mountpoint%
+label-mounted-foreground = ${colors.dimmed}
+
+ramp-capacity-0-foreground = ${palette.red}
+ramp-capacity-0 = █
+ramp-capacity-1-foreground = ${palette.orange}
+ramp-capacity-1 = ▇
+ramp-capacity-2-foreground = ${palette.yellow}
+ramp-capacity-2 = ▆
+ramp-capacity-3-foreground = ${palette.yellow}
+ramp-capacity-3 = ▅
+ramp-capacity-4-foreground = ${palette.green}
+ramp-capacity-4 = ▄
+ramp-capacity-5-foreground = ${palette.green}
+ramp-capacity-5 = ▃
+ramp-capacity-6-foreground = ${palette.green}
+ramp-capacity-6 = ▂
+ramp-capacity-7-foreground = ${palette.green}
+ramp-capacity-7 = ▁
+
+[module/wired-ip]
+type = internal/network
+interface = enp0s31f6
+interval = 2.0
+
+; Symbols: connected=0xf700 disconnected=0xf701
+format-connected =  <label-connected>
+label-connected = %local_ip%
+label-connected-foreground = ${colors.dimmed}
+label-disconnected = 
+label-disconnected-foreground = ${colors.dimmed}
+
+[module/temperature]
+type = internal/temperature
+interval = 0.5
+units = true
+warn-temperature = 80
+
+format = <ramp> <label>
+label = %temperature-c%
+label-foreground = ${colors.dimmed}
+
+format-warn = <ramp> <label-warn>
+label-warn = %temperature-c%
+label-warn-foreground = ${palette.bright_red}
+
+; Symbols: low=f2cb .. high=f2c7
+ramp-0 = 
+ramp-0-foreground = ${palette.gray}
+ramp-1 = 
+ramp-1-foreground = ${palette.gray}
+ramp-2 = 
+ramp-2-foreground = ${palette.green}
+ramp-3 = 
+ramp-3-foreground = ${palette.green}
+ramp-4 = 
+ramp-4-foreground = ${palette.yellow}
+ramp-5 = 
+ramp-5-foreground = ${palette.yellow}
+ramp-6 = 
+ramp-6-foreground = ${palette.orange}
+ramp-7 = 
+ramp-7-foreground = ${palette.orange}
+ramp-8 = 
+ramp-8-foreground = ${palette.bright_red}
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+
+format = <label> <ramp-coreload>
+
+label = CPU
+label-foreground = ${colors.dimmed}
+ramp-coreload-spacing = 1
+ramp-coreload-0 = ▁
+ramp-coreload-0-foreground = ${palette.green}
+ramp-coreload-1 = ▂
+ramp-coreload-1-foreground = ${palette.green}
+ramp-coreload-2 = ▃
+ramp-coreload-2-foreground = ${palette.yellow}
+ramp-coreload-3 = ▄
+ramp-coreload-3-foreground = ${palette.yellow}
+ramp-coreload-4 = ▅
+ramp-coreload-4-foreground = ${palette.orange}
+ramp-coreload-5 = ▆
+ramp-coreload-5-foreground = ${palette.orange}
+ramp-coreload-6 = ▇
+ramp-coreload-6-foreground = ${palette.red}
+ramp-coreload-7 = █
+ramp-coreload-7-foreground = ${palette.red}
+
+[module/memory]
+type = internal/memory
+interval = 1.0
+format = <label> <ramp-used>
+
+; Symbols: mem=0xf85a
+label = RAM
+label-foreground = ${colors.dimmed}
+
+ramp-used-0 = ▁
+ramp-used-0-foreground = ${palette.green}
+ramp-used-1 = ▂
+ramp-used-1-foreground = ${palette.green}
+ramp-used-2 = ▃
+ramp-used-2-foreground = ${palette.yellow}
+ramp-used-3 = ▄
+ramp-used-3-foreground = ${palette.yellow}
+ramp-used-4 = ▅
+ramp-used-4-foreground = ${palette.orange}
+ramp-used-5 = ▆
+ramp-used-5-foreground = ${palette.orange}
+ramp-used-6 = ▇
+ramp-used-6-foreground = ${palette.red}
+ramp-used-7 = █
+ramp-used-7-foreground = ${palette.red}

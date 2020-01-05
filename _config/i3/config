@@ -1,0 +1,261 @@
+# i3 config file (v4)
+# vim: set ft=i3config tw=100 cc=100 nowrap:
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+# ----------------------------------------------------------------------------------------------- #
+#                                             OPTIONS                                             #
+
+set $mod Mod4
+set $alt Mod1
+set $term       /usr/bin/alacritty
+set $alt_term   /usr/bin/urxvt
+
+font pango:Noto Sans 9
+
+# use mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# hide borders when there is only one container
+hide_edge_borders smart
+
+# enable popup during fullscreen
+popup_during_fullscreen smart
+
+# ----------------------------------------------------------------------------------------------- #
+#                                   WINDOW/WORKSPACE KEYBINDINGS                                  #
+
+# kill focused window
+bindsym $mod+w kill
+bindsym --release $mod+Shift+w exec /usr/bin/xkill
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+z focus child
+
+# change focus across workspaces
+bindsym $mod+Tab workspace back_and_forth
+
+# move between workspaces
+bindsym $mod+Left workspace prev
+bindsym $mod+Right workspace next
+bindsym $mod+Shift+Left move container to workspace prev
+bindsym $mod+Shift+Right move container to workspace next
+
+# change focus across outputs
+bindsym $alt+Tab focus output right
+bindsym $alt+Shift+Tab move container to output right
+
+# move containers between outputs
+bindsym $mod+Prior output left
+bindsym $mod+Next output right
+bindsym $mod+Shift+Prior move container to output left
+bindsym $mod+Shift+Next move container to output right
+
+# creating new windows
+bindsym $mod+bracketright split horizontal
+bindsym $mod+bracketleft split vertical
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout tabbed stacking
+bindsym $mod+d layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# scratchpad
+bindsym $mod+grave scratchpad show
+bindsym $mod+Shift+grave move scratchpad
+
+# change focus to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+    bindsym h resize shrink width 8 px or 8 ppt
+    bindsym j resize grow height 8 px or 8 ppt
+    bindsym k resize shrink height 8 px or 8 ppt
+    bindsym l resize grow width 8 px or 8 ppt
+
+    bindsym Shift+h resize shrink width 16 px or 16 ppt
+    bindsym Shift+j resize grow height 16 px or 16 ppt
+    bindsym Shift+k resize shrink height 16 px or 16 ppt
+    bindsym Shift+l resize grow width 16 px or 16 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# ----------------------------------------------------------------------------------------------- #
+#                                  SYSTEM/APPLICATION KEYBINDINGS                                 #
+
+set $terminal /usr/bin/alacritty
+set $browser /usr/bin/firefox
+set $launcher "rofi -show run"
+
+# window manager keybindings
+bindsym $mod+q reload; exec notify-send -t 250 -a i3 "i3 configuration reloaded"
+bindsym $mod+Shift+q restart; exec notify-send -t 250 -a i3 "i3 restarted"
+
+# session keybindings
+bindsym $mod+BackSpace exec "i3-nagbar -t warning -m 'Are you sure you want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# launch new application
+bindsym Menu exec --no-startup-id $launcher
+bindsym $mod+Escape exec --no-startup-id $launcher
+
+# terminal
+bindsym $mod+Return exec $terminal
+bindsym $mod+Shift+Return exec /usr/bin/urxvt
+for_window [class="URxvt"] border pixel 1
+for_window [class="Alacritty"] border pixel 1
+
+# pinentry
+for_window [class="Pinentry"] floating enable
+
+# browser/chromium
+bindsym $mod+u exec /usr/bin/chromium; [class="chromium"] focus
+bindsym $mod+Shift+u [class="Chromium"] focus
+assign [class="Chromium" title="Chromium$"] workspace 6
+for_window [class="Chromium" title="Chromium$"] border pixel 1
+
+# browser/firefox
+bindsym $mod+i exec /usr/bin/firefox; [class="firefox"] focus
+bindsym $mod+Shift+i [class="firefox"] focus
+assign [class="firefox" title="Mozilla Firefox$"] workspace 6
+for_window [class="firefox" title="Mozilla Firefox$"] border pixel 1
+for_window [class="firefox" title="Mozilla Firefox \(Private Browsing\)$"] border pixel 1
+
+# file browser
+bindsym $mod+semicolon exec /usr/bin/thunar
+bindsym $mod+Shift+semicolon exec $terminal -e /usr/bin/mc
+
+# media/ardour
+assign [class="Ardour"] workspace 8
+for_window [class="Ardour" title=".* - Ardour$"] border pixel 1
+
+# media/cantata
+bindsym $mod+m exec /usr/bin/cantata; [class="cantata"] focus
+bindsym $mod+Shift+m [class="cantata"] focus
+assign [class="cantata"] workspace 9
+for_window [class="cantata" title="Cantata"] border pixel 1
+
+# media/spotify
+bindsym $mod+b exec /usr/bin/blockify
+assign [class="Spotify"] workspace 9
+for_window [class="Spotify"] border bixel 1
+
+# media/vlc
+bindsym $mod+v exec /usr/bin/vlc
+bindsym $mod+Shift+v [class="Vlc"] focus
+
+# media/waveform
+for_window [title="Waveform"] border pixel 1
+
+# editor
+bindsym $mod+n exec /usr/bin/medit
+
+# audio
+bindsym $mod+backslash exec /usr/bin/pavucontrol; [class="Pavucontrol"] focus
+assign [class="Pavucontrol"] workspace 10
+
+# SYSTEM ACTIONS ------------------------------------------------------------
+
+bindsym Control+Mod1+Delete exec sudo /usr/bin/reboot
+bindsym Control+Mod1+Mod4+Delete exec sudo /usr/local/sbin/reboot-windows
+
+bindsym $mod+Print exec /usr/bin/scrot
+bindsym $mod+Shift+Print exec /usr/bin/scrot -s
+
+# Thinkpad buttons
+bindsym XF86Launch1 exec $terminal
+bindsym XF86LaunchA exec $terminal
+bindsym XF86Explorer exec /usr/bin/autorandr --force --load solo
+bindsym XF86Search exec true
+bindsym XF86Tools exec true
+
+# mpd control
+bindsym XF86AudioPlay exec /usr/bin/mpc toggle
+bindsym XF86AudioPrev exec /usr/bin/mpc prev
+bindsym XF86AudioNext exec /usr/bin/mpc next
+bindsym XF86AudioStop exec /usr/bin/mpc stop
+
+# volume adjustments for default sink
+bindsym XF86AudioRaiseVolume exec /usr/bin/pamixer --allow-boost --increase 5
+bindsym XF86AudioLowerVolume exec /usr/bin/pamixer --allow-boost --decrease 5
+bindsym XF86AudioMute exec /usr/bin/pamixer --toggle-mute
+bindsym XF86AudioMicMute exec "/usr/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+
+# blank the screen
+bindsym XF86ScreenSaver exec "/usr/bin/xset dpms force off && /usr/bin/i3lock -c 000000 -i ~/.config/i3/i3lock.png -f"
+bindsym XF86MonBrightnessDown exec "/usr/bin/light -U 5"
+bindsym XF86MonBrightnessUp exec "/usr/bin/light -A 5"
+
+bindsym XF86Display exec "/usr/bin/autorandr -c"
+bindsym XF86WebCam exec "/usr/bin/cheese"
+bindsym XF86TouchpadToggle exec "/usr/bin/synclient TouchpadOff=`/usr/bin/synclient -l | /usr/bin/grep -ce 'TouchpadOff.*0'`"
+bindsym XF86WLAN exec "/usr/bin/connmanctl enable offline && /usr/bin/connmanctl disable offline"
+
+# Break, Fn+B
+bindsym Break exec true
+
+# Pause, Fn+P
+bindsym Pause exec "/usr/bin/i3lock -i ~/.config/i3/i3lock.png -c 000000 -f"
+
+# ----------------------------------------------------------------------------------------------- #
+#                                           COLORSCHEME                                           #
+
+# class                 border  backgr. text    indicator
+client.focused          #af3a03 #af3a03 #f9f5d7 #d79921
+client.focused_inactive #282828 #282828 #86888C #292D2E
+client.unfocused        #282828 #282828 #86888C #292D2E
+client.urgent           #2F343A #D64E4E #f9f5d7 #D64E4E
+client.placeholder      #282828 #0C0C0C #f9f5d7 #282828
+client.background       #212121
+
+# ----------------------------------------------------------------------------------------------- #
+#                                            AUTOSTART                                            #
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id dapper -su
+exec --no-startup-id unclutter -b

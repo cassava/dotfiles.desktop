@@ -1,0 +1,6 @@
+#!/bin/sh
+# Prevent screen blanking
+
+setterm -blank 0
+xset -dpms
+xset s off

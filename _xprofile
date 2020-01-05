@@ -1,0 +1,5 @@
+#
+# .xprofile
+#
+
+autorandr --default solo -c --force

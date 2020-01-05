@@ -1,0 +1,35 @@
+! Font configuration
+Xft.autohint:           0
+Xft.lcdfilter:          lcddefault
+Xft.hintstyle:          hintfull
+Xft.hinting:            true
+Xft.antialias:          true
+
+! URxvt configuration
+URxvt*font:             xft:FuraMono Nerd font:pixelsize=18
+URxvt*buffered:         true
+URxvt*cursorBlink:      true
+URxvt*urgentOnBell:     true
+URxvt*fading:           25
+URxvt*dynamicColors:    true
+
+URxvt*jumpScroll:       true
+URxvt*skipScroll:       true
+URxvt*scrollBar:        false
+URxvt*saveLines:        10000
+URxvt*secondaryScroll:  true
+
+URxvt*iso14755:         false
+URxvt*iso14755_52:      true
+
+URxvt*perl-ext-common:  cycle-colors,font-size
+
+! Keybindings
+URxvt*keysym.F12:       cycle-colors:
+URxvt*keysym.C-A-equal: font-size:incglobal
+URxvt*keysym.C-A-plus:  font-size:incglobal
+URxvt*keysym.C-A-minus: font-size:decglobal
+URxvt*keysym.C-slash:   font-size:show
+
+! Colorscheme
+#include ".local/share/xcolors/gruvbox.col"

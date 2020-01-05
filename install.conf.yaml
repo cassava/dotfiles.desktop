@@ -1,0 +1,77 @@
+- defaults:
+    link:
+      relink: true
+
+- clean:
+    - ~/
+    - ~/.config
+    - ~/.local/bin
+
+- link:
+  ~/.dmrc: _dmrc
+  ~/.Xmodmap: _Xmodmap
+  ~/.xprofile: _xprofile
+  ~/.Xresources: _Xresources
+  ~/.config:
+    path: _config/*
+    glob: true
+    create: true
+  ~/.local/bin:
+    path: _config/bin/*
+    glob: true
+    create: true
+
+- shell:
+  - "false"
+  - description: Install core packages
+    command: >
+      test -f /usr/bin/pacman && \
+      sudo pacman -Sy --needed \
+        alacritty \
+        alacritty-terminfo \
+        autorandr \
+        dapper \
+        dunst \
+        i3-wm \
+        i3lock \
+        nerd-fonts-complete \
+        nitrogen \
+        polybar \
+        rofi \
+        rxvt-perls \
+        rxvt-unicode \
+        rxvt-unicode-terminmfo \
+        unclutter \
+        xcursor-vanilla-dmz \
+        xorg-xmodmap
+    stdin: true
+    stdout: true
+    stderr: true
+  - description: Install extra packages
+    command: >
+      test -f /usr/bin/pacman && \
+      sudo pacman -Sy --needed \
+        blockify \
+        cantata \
+        chromium \
+        firefox \
+        firefox-passff \
+        light \
+        lightdm \
+        lightdm-gtk-greeter \
+        mc \
+        medit \
+        mpc \
+        mpd \
+        pamixer \
+        passff-host \
+        pavucontrol \
+        scrot \
+        spotify \
+        thunar \
+        vlc \
+        xorg-xkill \
+        xorg-xset
+    stdin: true
+    stdout: true
+    stderr: true
