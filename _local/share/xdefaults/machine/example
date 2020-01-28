@@ -1,0 +1,28 @@
+! vim:set ft=xdefaults:
+! Machine fallback/default parameters
+
+! Machine hostname.
+! 1. Run: hostname
+machine.hostname: example
+
+! Machine internal monitor, such as the LCD screen.
+! 1. Disconnect all external monitors
+! 2. Run: xrandr --listmonitors
+machine.monitor-internal: eDP-1
+
+! Machine external primary and secondary monitors.
+! The primary monitor is usually on the left and contains the tray.
+! 1. Connect and switch to all external monitors
+! 2. Run: xrandr --listmonitors
+machine.monitor-primary: DP-3-1
+machine.monitor-secondary: DP-3-2
+
+! Machine ethernet devices to watch.
+! The primary ethernet is usually the built-in and the secondary is the docking station.
+! 1. Run: ip a
+machine.ethernet-primary: enp62s0
+machine.ethernet-secondary: enp0s31f6
+
+! Machine wifi device.
+! 1. Run: ip a
+machine.wifi: wlp2s0

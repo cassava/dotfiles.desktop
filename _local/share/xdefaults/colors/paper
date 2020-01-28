@@ -1,0 +1,37 @@
+! vim:set syntax=xdefaults:
+! Paper colorscheme
+
+*foreground: #4D4D4C
+*background: #EEEEEE
+
+! Black + DarkGrey
+*color0: #EDEDED
+*color8: #969694
+
+! DarkRed + Red
+*color1: #D7005F
+*color9: #D7005F
+
+! DarkGreen + Green
+*color2: #718C00
+*color10: #718C00
+
+! DarkYellow + Yellow
+*color3: #D75F00
+*color11: #D75F00
+
+! DarkBlue + Blue
+*color4: #4271AE
+*color12: #4271AE
+
+! DarkMagenta + Magenta
+*color5: #8959A8
+*color13: #8959A8
+
+! DarkCyan + Cyan
+*color6: #3E999F
+*color14: #3E999F
+
+! LightGrey + White
+*color7: #4D4D4C
+*color15: #F5F5F5
