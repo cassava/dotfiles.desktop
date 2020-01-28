@@ -20,9 +20,19 @@
       path: _local/bin/*
       glob: true
       create: true
+    ~/.local/share/i3lock: _local/share/i3lock
+    ~/.local/share/xdefaults/colors:
+      path: _local/share/xdefaults/colors/*
+      glob: true
+      create: true
+    ~/.local/share/xdefaults/machine:
+      path: _local/share/xdefaults/machine/*
+      glob: true
+      create: true
 
+# Arch Linux packages
 - shell:
-  - description: Install core packages
+  - description: Install core packages (Arch)
     command: >
       test -x /usr/bin/pacman &&
       sudo pacman -Sy --needed \
@@ -42,11 +52,12 @@
         unclutter              \
         urxvt-perls            \
         xcursor-vanilla-dmz    \
-        xorg-xmodmap
+        xorg-xmodmap           \
+      || true
     stdin: true
     stdout: true
     stderr: true
-  - description: Install extra packages
+  - description: Install extra packages (Arch)
     command: >
       test -x /usr/bin/pacman &&
       sudo pacman -Sy --needed \
@@ -69,7 +80,41 @@
         thunar                 \
         vlc                    \
         xorg-xkill             \
-        xorg-xset
+        xorg-xset              \
+      || true
+    stdin: true
+    stdout: true
+    stderr: true
+
+# Ubuntu Bionic packages
+#
+# The following packages are missing and need to be installed separately:
+#   - alacritty
+#   - alacritty-terminfo
+#   - dapper
+#   - nerd-fonts-complete
+#   - polybar
+#
+- shell:
+  - description: Install core packages (Ubuntu)
+    command: >
+      test -x /usr/bin/apt    &&
+      sudo apt update         &&
+      sudo apt install         \
+        autorandr              \
+        dmz-cursor-theme       \
+        dunst                  \
+        i3-gaps                \
+        i3-gaps-wm             \
+        i3lock                 \
+        nitrogen               \
+        rofi                   \
+        rxvt-unicode           \
+        unclutter-xfixes       \
+        unifont                \
+        x11-xserver-utils      \
+        x11-utils              \
+      || true
     stdin: true
     stdout: true
     stderr: true
