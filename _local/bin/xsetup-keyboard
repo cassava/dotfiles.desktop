@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Load layout: International US"
+echo "Load US keyboard layout"
 setxkbmap -layout us -variant altgr-intl -option terminate:ctrl_alt_bksp,caps:escape,grp:rctrl_toggle,compose:sclk
 if [ -f ~/.Xmodmap ]; then
     echo "Load ~/.Xmodmap"
