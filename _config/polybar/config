@@ -84,7 +84,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory backlight battery volume worktime clock keyboard powermenu
 
 tray-position = right
 tray-maxsize = 16
@@ -119,7 +119,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock
 
 tray-position = right
 tray-maxsize = 16
@@ -154,7 +154,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip wireless-network temperature cpu memory backlight battery volume keyboard clock
+modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock keyboard powermenu
 
 cursor-click = pointer
 
@@ -270,7 +270,7 @@ animation-charging-framerate = 333
 
 [module/wireless-network]
 type = internal/network
-interface = wlp3s0
+interface = ${xrdb:machine.wifi}
 interval = 2.0
 ping-interval = 10
 
@@ -311,10 +311,25 @@ date-alt = %d.%m.%Y
 time-alt = %H:%M:%S
 
 ; Symbols: calendar=0xf5ef
-format = <label>
+format =   <label>
 
 label = %{F#a89984}%date%%{F-}   %time%
 label-foreground = ${palette.white}
+
+[module/worktime]
+type = custom/script
+interval = 1
+
+; Symbols: timer=0xfa1a
+format = 祥  <label>
+label = %output%
+
+exec-if = test -f ~/.cache/worktime/begin
+exec = worktime -f lemonbar $(cat ~/.cache/worktime/args 2>/dev/null) $(cat ~/.cache/worktime/begin)
+click-left = echo "-d" > ~/.cache/worktime/args
+click-right = echo "" > ~/.cache/worktime/args
+double-click-left = echo "-d -p 0m" > ~/.cache/worktime/args
+double-click-right = echo "-p 0m" > ~/.cache/worktime/args
 
 [module/xwindow]
 type = internal/xwindow
@@ -328,9 +343,9 @@ expand-right = false
 format-background = ${colors.background}
 format-foreground = ${colors.foreground}
 
-; Symbols: arch=0xf303 power=0x23fb
-label-open = 
-label-close = ⏻
+; Symbols: arch=0xf303 power=0x23fb penguin=0xf83c cancel=0xfc38
+label-open = ⏻
+label-close = ﰸ
 label-separator = " | "
 
 menu-0-0 = Logoff
@@ -351,11 +366,12 @@ type = internal/fs
 spacing = 4
 
 mount-0 = /
-mount-1 = /home
 
 format-mounted = <label-mounted> <ramp-capacity>
 label-mounted = %mountpoint%
 label-mounted-foreground = ${colors.dimmed}
+
+format-unmounted =
 
 ramp-capacity-0-foreground = ${palette.red}
 ramp-capacity-0 = █
@@ -374,9 +390,21 @@ ramp-capacity-6 = ▂
 ramp-capacity-7-foreground = ${palette.green}
 ramp-capacity-7 = ▁
 
-[module/wired-ip]
+[module/wired-ip-primary]
 type = internal/network
-interface = enp0s31f6
+interface = ${xrdb:machine.ethernet-primary}
+interval = 2.0
+
+; Symbols: connected=0xf700 disconnected=0xf701
+format-connected =  <label-connected>
+label-connected = %local_ip%
+label-connected-foreground = ${colors.dimmed}
+label-disconnected = 
+label-disconnected-foreground = ${colors.dimmed}
+
+[module/wired-ip-secondary]
+type = internal/network
+interface = ${xrdb:machine.ethernet-secondary}
 interval = 2.0
 
 ; Symbols: connected=0xf700 disconnected=0xf701
