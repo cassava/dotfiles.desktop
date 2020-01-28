@@ -8,8 +8,17 @@
 
 set $mod Mod4
 set $alt Mod1
-set $term       /usr/bin/alacritty
-set $alt_term   /usr/bin/urxvt
+
+set_from_resource $terminal             i3.terminal             /usr/bin/alacritty
+set_from_resource $terminal_alternate   i3.terminal-alternate   /usr/bin/urxvt
+set_from_resource $browser              i3.browser              /usr/bin/firefox
+set_from_resource $launcher             i3.launcher             "rofi -show run"
+set_from_resource $monitor_primary      i3.monitor-primary      DP-6.1
+set_from_resource $monitor_secondary    i3.monitor-secondary    DP-6.2
+set_from_resource $border_width         i3.border-width         3
+set_from_resource $gaps_inner           i3.gaps-inner           6
+set_from_resource $gaps_outer           i3.gaps-outer           0
+set_from_resource $lock_image           i3.lock-image           ~/.local/share/i3lock/default.png
 
 font pango:Noto Sans 9
 
@@ -21,6 +30,20 @@ hide_edge_borders smart
 
 # enable popup during fullscreen
 popup_during_fullscreen smart
+
+# window focus follows your mouse movements as the mouse crosses window borders
+focus_follows_mouse yes
+
+# disable titlebar
+new_window pixel $border_width
+new_float pixel $border_width
+
+# set gaps (i3-gaps)
+gaps inner $gaps_inner
+gaps outer $gaps_outer
+
+# only enable gaps on a workspace when there is at least one container
+smart_gaps on
 
 # ----------------------------------------------------------------------------------------------- #
 #                                   WINDOW/WORKSPACE KEYBINDINGS                                  #
@@ -107,6 +130,18 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
+# multi-monitor setup
+workspace  1 output "$monitor_primary"
+workspace  2 output "$monitor_primary"
+workspace  3 output "$monitor_primary"
+workspace  5 output "$monitor_primary"
+workspace  7 output "$monitor_primary"
+workspace  4 output "$monitor_secondary"
+workspace  6 output "$monitor_secondary"
+workspace  8 output "$monitor_secondary"
+workspace  9 output "$monitor_secondary"
+workspace 10 output "$monitor_secondary"
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
     bindsym h resize shrink width 8 px or 8 ppt
@@ -129,10 +164,6 @@ bindsym $mod+r mode "resize"
 # ----------------------------------------------------------------------------------------------- #
 #                                  SYSTEM/APPLICATION KEYBINDINGS                                 #
 
-set $terminal /usr/bin/alacritty
-set $browser /usr/bin/firefox
-set $launcher "rofi -show run"
-
 # window manager keybindings
 bindsym $mod+q reload; exec notify-send -t 250 -a i3 "i3 configuration reloaded"
 bindsym $mod+Shift+q restart; exec notify-send -t 250 -a i3 "i3 restarted"
@@ -146,9 +177,9 @@ bindsym $mod+Escape exec --no-startup-id $launcher
 
 # terminal
 bindsym $mod+Return exec $terminal
-bindsym $mod+Shift+Return exec /usr/bin/urxvt
-for_window [class="URxvt"] border pixel 1
-for_window [class="Alacritty"] border pixel 1
+bindsym $mod+Shift+Return exec $terminal_alternate
+for_window [class="URxvt"] border pixel $border_width
+for_window [class="Alacritty"] border pixel $border_width
 
 # pinentry
 for_window [class="Pinentry"] floating enable
@@ -157,14 +188,14 @@ for_window [class="Pinentry"] floating enable
 bindsym $mod+u exec /usr/bin/chromium; [class="chromium"] focus
 bindsym $mod+Shift+u [class="Chromium"] focus
 assign [class="Chromium" title="Chromium$"] workspace 6
-for_window [class="Chromium" title="Chromium$"] border pixel 1
+for_window [class="Chromium" title="Chromium$"] border pixel $border_width
 
 # browser/firefox
-bindsym $mod+i exec /usr/bin/firefox; [class="firefox"] focus
-bindsym $mod+Shift+i [class="firefox"] focus
-assign [class="firefox" title="Mozilla Firefox$"] workspace 6
-for_window [class="firefox" title="Mozilla Firefox$"] border pixel 1
-for_window [class="firefox" title="Mozilla Firefox \(Private Browsing\)$"] border pixel 1
+bindsym $mod+i exec /usr/bin/firefox; [class="Firefox"] focus
+bindsym $mod+Shift+i [class="Firefox"] focus
+assign [class="Firefox" title="Mozilla Firefox$"] workspace 6
+for_window [class="Firefox" title="Mozilla Firefox$"] border pixel $border_width
+for_window [class="Firefox" title="Mozilla Firefox \(Private Browsing\)$"] border pixel $border_width
 
 # file browser
 bindsym $mod+semicolon exec /usr/bin/thunar
@@ -172,13 +203,13 @@ bindsym $mod+Shift+semicolon exec $terminal -e /usr/bin/mc
 
 # media/ardour
 assign [class="Ardour"] workspace 8
-for_window [class="Ardour" title=".* - Ardour$"] border pixel 1
+for_window [class="Ardour" title=".* - Ardour$"] border pixel $border_width
 
 # media/cantata
 bindsym $mod+m exec /usr/bin/cantata; [class="cantata"] focus
 bindsym $mod+Shift+m [class="cantata"] focus
 assign [class="cantata"] workspace 9
-for_window [class="cantata" title="Cantata"] border pixel 1
+for_window [class="cantata" title="Cantata"] border pixel $border_width
 
 # media/spotify
 bindsym $mod+b exec /usr/bin/blockify
@@ -190,7 +221,7 @@ bindsym $mod+v exec /usr/bin/vlc
 bindsym $mod+Shift+v [class="Vlc"] focus
 
 # media/waveform
-for_window [title="Waveform"] border pixel 1
+for_window [title="Waveform"] border pixel $border_width
 
 # editor
 bindsym $mod+n exec /usr/bin/medit
@@ -227,7 +258,7 @@ bindsym XF86AudioMute exec /usr/bin/pamixer --toggle-mute
 bindsym XF86AudioMicMute exec "/usr/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
 
 # blank the screen
-bindsym XF86ScreenSaver exec "/usr/bin/xset dpms force off && /usr/bin/i3lock -c 000000 -i ~/.config/i3/i3lock.png -f"
+bindsym XF86ScreenSaver exec "/usr/bin/xset dpms force off && /usr/bin/i3lock -c 000000 -i $lock_image -f -t"
 bindsym XF86MonBrightnessDown exec "/usr/bin/light -U 5"
 bindsym XF86MonBrightnessUp exec "/usr/bin/light -A 5"
 
@@ -240,7 +271,7 @@ bindsym XF86WLAN exec "/usr/bin/connmanctl enable offline && /usr/bin/connmanctl
 bindsym Break exec true
 
 # Pause, Fn+P
-bindsym Pause exec "/usr/bin/i3lock -i ~/.config/i3/i3lock.png -c 000000 -f"
+bindsym Pause exec "/usr/bin/i3lock -f -t -c 000000 -i $lock_image"
 
 # ----------------------------------------------------------------------------------------------- #
 #                                           COLORSCHEME                                           #
@@ -257,5 +288,9 @@ client.background       #212121
 #                                            AUTOSTART                                            #
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec --no-startup-id dapper -su
+
+# Composite manager
+exec --no-startup-id compton -f --config /etc/xdg/compton.conf
+
+# Hide the mouse pointer if unused for a duration
 exec --no-startup-id unclutter -b
