@@ -1,30 +1,145 @@
 #!/bin/bash
+#
+# Configuration is achieved via Xrdb.
+#
+# Machine parameters:
+#
+#   machine.hostname
+#   machine.monitor-internal
+#   machine.monitor-primary
+#   machine.monitor-secondary
+#   machine.ethernet-primary
+#   machine.ethernet-secondary
+#   machine.wifi
+#
+# Polybar parameters:
+#
+#   polybar.height
+#   polybar.font-0
+#   polybar.font-1
+#   polybar.monitor-primary
+#   polybar.monitor-secondary
+#
+# i3 parameters:
+#
+#   i3.terminal
+#   i3.terminal-alternate
+#   i3.browser
+#   i3.launcher
+#   i3.lock-image
+#   i3.monitor-primary
+#   i3.monitor-secondary
+#   i3.border-width
+#   i3.gaps-inner
+#   i3.gaps-outer
 
-set_dpi() {
+# Usage: postswitch [DPI]
+#
+# Before calling this function, you should call the following functions:
+#   load_machine_defaults
+#   set_machine_monitors
+#   set_i3_gaps
+#   set_polybar_mode
+#   set_polybar_options
+postswitch() {
     local dpi=${1:-96}
 
-    local tmpfile=$(mktemp)
-    cat >$tmpfile <<EOF
+    set_monitor_dpi $dpi
+    set_alacritty_link $dpi
+    reset_monitor_background
+    reset_keyboard
+    reset_i3
+}
+
+# Usage: xrdb_query <KEY>
+xrdb_query() {
+    local key=$1
+
+    xrdb -query | sed -rn "s/^${key}:[ \\t]*(.+)\$/\\1/p"
+}
+
+# Usage: load_machine_defaults [PATH TO XDEFAULTS]
+load_machine_defaults() {
+    local path=${1-~/.local/share/xdefaults/machine/$(hostname)}
+
+    if [[ -f $path ]]; then
+        echo "Load $path"
+        xrdb -merge $path
+    fi
+}
+
+# Usage: get_monitor_resolution <MONITOR>
+get_monitor_resolution() {
+    local monitor=$1
+
+    xrandr | grep -F "$monitor" | sed -r 's/^.*\b([0-9]+x[0-9]+)\b.*$/\1/'
+}
+
+# Usage: set_machine_monitors [PRIMARY MONITOR] [SECONDARY MONITOR]
+set_machine_monitors() {
+    local primary=${1-$(xrdb_query machine.monitor-primary)}
+    local secondary=${2-$(xrdb_query machine.monitor-secondary)}
+
+    set_i3lock_image "$primary"
+    xrdb -merge <<EOF
+machine.monitor-primary: $primary
+machine.monitor-secondary: $secondary
+i3.monitor-primary: $primary
+i3.monitor-secondary: $secondary
+polybar.monitor-primary: $primary
+polybar.monitor-secondary: $secondary
+EOF
+}
+
+# Usage: set_monitor_dpi [DPI]
+set_monitor_dpi() {
+    local dpi=${1:-96}
+
+    xrandr --dpi $dpi
+    xrdb -merge <<EOF
 Xft.dpi: $dpi
 Xft.rgba: rgbft*dpi: $dpi
 EOF
-    xrandr --dpi $dpi
-    xrdb -merge $tmpfile
-    rm $tmpfile
-    i3-msg "restart"
 }
 
-set_keyboard() {
-    # Set the keyboard to US with my modifications
-    setxkbmap -layout us -variant altgr-intl -option terminate:ctrl_alt_bksp,caps:escape,grp:rctrl_toggle,compose:sclk
-    [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+# Usage: set_i3_gaps [INNER] [OUTER] [BORDER WIDTH IN PIXELS]
+set_i3_gaps() {
+    local inner=${1-0}
+    local outer=${2-0}
+    local border=${3-0}
+
+    echo "Set i3 gaps: ($inner, $outer)"
+    xrdb -merge <<EOF
+i3.gaps-inner: $inner
+i3.gaps-outer: $outer
+i3.border-width: $border
+EOF
 }
 
-set_background() {
-    # Load background saved for this monitor
-    nitrogen --restore
+# Usage: set_i3lock_image <MONITOR>
+set_i3lock_image() {
+    local monitor=$1
+    local resolution=$(get_monitor_resolution "$monitor")
+
+    local prefix="$HOME/.local/share/i3lock"
+    local image=""
+    for file in "$prefix/$resolution.png" "$prefix/default.png"
+    do
+        if [[ -f "$file" ]]; then
+            image="$file"
+            break
+        fi
+    done
+
+    if [[ -f $image ]]; then
+        echo "Set i3lock image: $image"
+        xrdb -merge <<EOF
+i3.lock-image: $image
+EOF
+    fi
 }
 
+# Usage: set_polybar_mode dual|solo
 set_polybar_mode() {
     local mode=$1
 
@@ -33,42 +148,31 @@ set_polybar_mode() {
         mkdir -p $rundir;
     fi
     if [[ $mode == "dual" ]]; then
+        echo "Set polybar mode: dual"
         rm -f $rundir/solo
         touch $rundir/dual
     else
+        echo "Set polybar mode: solo"
         rm -f $rundir/dual
         touch $rundir/solo
     fi
 }
 
-set_monitors() {
-    local primary=$1
-    local secondary=$2
-
-    local tmpfile=$(mktemp)
-    cat >$tmpfile <<EOF
-polybar.monitor-primary: $primary
-polybar.monitor-secondary: $secondary
-EOF
-    xrdb -merge $tmpfile
-    rm $tmpfile
-}
-
-set_polybar() {
+# Usage: set_polybar_options [HEIGHT] [FONT-1 SIZE] [FONT-2 SIZE]
+set_polybar_options() {
     local height=${1:-24}
     local font_size_0=${2:-10}
     local font_size_1=${3:-8}
 
-    local tmpfile=$(mktemp)
-    cat >$tmpfile <<EOF
+    echo "Set polybar options"
+    xrdb -merge <<EOF
 polybar.height: $height
 polybar.font-0: Noto Sans Nerd Font:size=$font_size_0
 polybar.font-1: Unifont:size=$font_size_1
 EOF
-    xrdb -merge $tmpfile
-    rm $tmpfile
 }
 
+# Usage: set_alacritty_link <DPI>
 set_alacritty_link() {
     local dpi=${1:-96}
     local src_filename=alacritty.${dpi}dpi.yml
@@ -93,10 +197,19 @@ set_alacritty_link() {
     fi
 }
 
-postswitch() {
-    local dpi=${1:-96}
-    set_dpi $dpi
-    set_background
-    set_alacritty_link $dpi
-    set_keyboard
+# Usage: reset_monitor_background
+reset_monitor_background() {
+    echo "Restore wallpaper"
+    nitrogen --restore
+}
+
+# Usage: reset_keyboard
+reset_keyboard() {
+    ~/.local/bin/xsetup-keyboard
+}
+
+# Usage: reset_i3
+reset_i3() {
+    echo "Restart i3"
+    i3-msg "restart" >/dev/null
 }

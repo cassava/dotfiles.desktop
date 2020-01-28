@@ -1,7 +1,15 @@
 #!/bin/bash
+#
+# LCD "15.6 @ 1920x1080
+# Monitor DPI: 141
+#
 
 source $(dirname $0)/../common.sh
 
+echo "---"
+load_machine_defaults
+set_machine_monitors DP-3 DP-3
 set_polybar_mode solo
-set_polybar 36 12 9
+set_polybar_options 36 12 9
+set_i3_gaps 3 0 1
 postswitch 144
