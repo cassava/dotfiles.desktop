@@ -84,7 +84,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory backlight battery volume worktime clock keyboard powermenu
+modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory backlight battery volume worktime clock keyboard powermenu
 
 tray-position = right
 tray-maxsize = 16
@@ -119,7 +119,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock
+modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock
 
 tray-position = right
 tray-maxsize = 16
@@ -154,7 +154,7 @@ font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
 
 modules-left = i3 xwindow
 modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock keyboard powermenu
+modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock keyboard powermenu
 
 cursor-click = pointer
 
@@ -405,6 +405,18 @@ label-disconnected-foreground = ${colors.dimmed}
 [module/wired-ip-secondary]
 type = internal/network
 interface = ${xrdb:machine.ethernet-secondary}
+interval = 2.0
+
+; Symbols: connected=0xf700 disconnected=0xf701
+format-connected =  <label-connected>
+label-connected = %local_ip%
+label-connected-foreground = ${colors.dimmed}
+label-disconnected = 
+label-disconnected-foreground = ${colors.dimmed}
+
+[module/wired-ip-tertiary]
+type = internal/network
+interface = ${xrdb:machine.ethernet-tertiary}
 interval = 2.0
 
 ; Symbols: connected=0xf700 disconnected=0xf701
