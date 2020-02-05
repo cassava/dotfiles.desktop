@@ -66,6 +66,10 @@ load_machine_defaults() {
         echo "Load $path"
         xrdb -merge $path
     fi
+
+    if [[ -f "$path.sh" ]]; then
+        . $path.sh
+    fi
 }
 
 # Usage: get_monitor_resolution <MONITOR>
