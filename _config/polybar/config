@@ -348,18 +348,21 @@ label-open = ⏻
 label-close = ﰸ
 label-separator = " | "
 
-menu-0-0 = Logoff
+menu-0-0 = Lock
 menu-0-0-foreground = ${colors.accent}
-menu-0-0-exec = i3-msg quit
-menu-0-1 = Suspend
+menu-0-0-exec = i3lock -f -t -c 000000 -i ${xrdb:i3.lock-image:~/.local/share/i3lock/default.png}
+menu-0-1 = Logoff
 menu-0-1-foreground = ${colors.accent}
-menu-0-1-exec = suspend
-menu-0-2 = Reboot
+menu-0-1-exec = i3-msg quit
+menu-0-2 = Suspend
 menu-0-2-foreground = ${colors.accent}
-menu-0-2-exec = reboot
-menu-0-3 = Power Off
+menu-0-2-exec = suspend
+menu-0-3 = Reboot
 menu-0-3-foreground = ${colors.accent}
-menu-0-3-exec = poweroff
+menu-0-3-exec = reboot
+menu-0-4 = Power Off
+menu-0-4-foreground = ${colors.accent}
+menu-0-4-exec = poweroff
 
 [module/filesystem]
 type = internal/fs
