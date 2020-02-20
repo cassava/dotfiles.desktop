@@ -169,7 +169,8 @@ bindsym $mod+q reload; exec notify-send -t 250 -a i3 "i3 configuration reloaded"
 bindsym $mod+Shift+q restart; exec notify-send -t 250 -a i3 "i3 restarted"
 
 # session keybindings
-bindsym $mod+BackSpace exec "i3-nagbar -t warning -m 'Are you sure you want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+BackSpace exec autorandr -c
+bindsym $mod+Shift+BackSpace exec autorandr -l solo --force
 
 # launch new application
 bindsym Menu exec --no-startup-id $launcher
@@ -258,7 +259,7 @@ bindsym XF86AudioMute exec /usr/bin/pamixer --toggle-mute
 bindsym XF86AudioMicMute exec "/usr/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
 
 # blank the screen
-bindsym XF86ScreenSaver exec "/usr/bin/xset dpms force off && /usr/bin/i3lock -c 000000 -i $lock_image -f -t"
+bindsym XF86ScreenSaver exec "/usr/bin/xset dpms force off && /usr/bin/i3lock -f -t -c 000000 -i $lock_image"
 bindsym XF86MonBrightnessDown exec "/usr/bin/light -U 5"
 bindsym XF86MonBrightnessUp exec "/usr/bin/light -A 5"
 
