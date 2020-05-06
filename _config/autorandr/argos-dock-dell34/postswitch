@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source $(dirname $0)/../common.sh
+
+set_polybar_mode solo
+set_polybar 32 12 9
+postswitch 110
+set_gaps 20 5
