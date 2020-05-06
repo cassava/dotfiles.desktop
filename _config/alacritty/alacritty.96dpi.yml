@@ -51,15 +51,6 @@ scrolling:
   # scrollback is enabled (history > 0).
   multiplier: 3
 
-# Spaces per Tab (changes require restart)
-#
-# This setting defines the width of a tab in cells.
-#
-# Some applications, like Emacs, rely on knowing about the width of a tab.
-# To prevent unexpected behavior in these applications, it's also required to
-# change the `it` value in terminfo when altering this setting.
-tabspaces: 8
-
 # Font configuration (changes require restart)
 #
 # Important font attributes like antialiasing, subpixel aa, and hinting can be
@@ -350,8 +341,6 @@ key_bindings:
   - { key: C,        mods: Control|Shift,    action: Copy                }
   - { key: Paste,                   action: Paste                        }
   - { key: Copy,                    action: Copy                         }
-  - { key: Q,        mods: Command, action: Quit                         }
-  - { key: W,        mods: Command, action: Quit                         }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }
   - { key: Key0,     mods: Control, action: ResetFontSize                }
   - { key: Equals,   mods: Control, action: IncreaseFontSize             }
