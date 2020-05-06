@@ -37,7 +37,6 @@
       test -x /usr/bin/pacman &&
       sudo pacman -Sy --needed \
         alacritty              \
-        alacritty-terminfo     \
         autorandr              \
         dapper                 \
         dunst                  \
