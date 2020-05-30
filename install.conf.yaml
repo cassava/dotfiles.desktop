@@ -41,7 +41,7 @@
         autorandr              \
         dapper                 \
         dunst                  \
-        i3-wm                  \
+        i3-gaps                \
         i3lock                 \
         imagemagick            \
         nerd-fonts-complete    \
@@ -64,9 +64,9 @@
     command: >
       test -x /usr/bin/pacman &&
       sudo pacman -Sy --needed \
-        blockify               \
         cantata                \
         chromium               \
+        evince                 \
         firefox                \
         firefox-passff         \
         light                  \
@@ -79,7 +79,6 @@
         passff-host            \
         pavucontrol            \
         scrot                  \
-        spotify                \
         thunar                 \
         vlc                    \
         xorg-xkill             \
