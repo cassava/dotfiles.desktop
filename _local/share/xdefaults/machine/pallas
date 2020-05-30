@@ -1,0 +1,9 @@
+! vim: ft=xdefaults:
+!
+
+machine.hostname: pallas
+machine.monitor-internal: HDMI-0
+machine.ethernet-primary: enp5s0
+machine.wifi: wlp4s0
+
+desktop.lock-image: ~/.config/i3/lock.png
