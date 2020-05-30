@@ -20,7 +20,6 @@
       path: _local/bin/*
       glob: true
       create: true
-    ~/.local/share/i3lock: _local/share/i3lock
     ~/.local/share/xlock: _local/share/xlock
     ~/.local/share/xdefaults/colors:
       path: _local/share/xdefaults/colors/*
