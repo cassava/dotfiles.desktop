@@ -3,6 +3,6 @@
 source $(dirname $0)/../common.sh
 
 set_polybar_mode solo
-set_polybar 32 12 9
+set_polybar_options 32 12 9
+set_i3_gaps 10 2 2
 postswitch 110
-set_gaps 20 5

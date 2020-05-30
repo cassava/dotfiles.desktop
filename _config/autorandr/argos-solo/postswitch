@@ -13,4 +13,3 @@ set_polybar_mode solo
 set_polybar_options 36 12 9
 set_i3_gaps 3 0 1
 postswitch 144
-set_gaps 2
