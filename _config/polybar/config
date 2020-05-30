@@ -8,6 +8,12 @@
 ;   viw:s/0x\x\{4}/\=nr2char(str2nr(submatch(0), 16))/
 ;
 
+[machine]
+wifi = ${xrdb:machine.wifi}
+ethernet-primary = ${xrdb:machine.ethernet-primary}
+ethernet-secondary = ${xrdb:machine.ethernet-secondary}
+ethernet-tertiary = ${xrdb:machine.ethernet-tertiary}
+
 [palette]
 ; The color palette below is derived from the Gruvbox theme.
 ; See: https://github.com/morhetz/gruvbox
@@ -55,108 +61,6 @@ background = ${palette.bg}
 accent =     #af3a03
 border =     ${palette.bg1}
 dimmed =     ${palette.fg4}
-
-; --------------------------------------------------------------------------- ;
-
-[bar/solo]
-enable-ipc = true
-width = 100%
-height = ${xrdb:polybar.height:24}
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-border-bottom-size = 2
-border-bottom-color = ${colors.border}
-
-overline-size = 2
-overline-color = ${self.background}
-underline-size = 2
-underline-color = ${colors.background}
-
-padding-left = 0
-padding-right = 2
-module-margin-left = 3
-module-margin-right = 3
-
-font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
-font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
-
-modules-left = i3 xwindow
-modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory backlight battery volume worktime clock keyboard powermenu
-
-tray-position = right
-tray-maxsize = 16
-tray-padding = 4
-
-cursor-click = pointer
-
-[bar/dual-primary]
-enable-ipc = true
-width = 100%
-height = ${xrdb:polybar.height:24}
-monitor = ${xrdb:polybar.monitor-primary}
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-border-bottom-size = 2
-border-bottom-color = ${colors.border}
-
-overline-size = 2
-overline-color = ${self.background}
-underline-size = 2
-underline-color = ${colors.background}
-
-padding-left = 0
-padding-right = 2
-module-margin-left = 3
-module-margin-right = 3
-
-font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
-font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
-
-modules-left = i3 xwindow
-modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock
-
-tray-position = right
-tray-maxsize = 16
-tray-padding = 4
-
-cursor-click = pointer
-
-[bar/dual-secondary]
-enable-ipc = true
-width = 100%
-height = ${xrdb:polybar.height:24}
-monitor = ${xrdb:polybar.monitor-secondary}
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-border-bottom-size = 2
-border-bottom-color = ${colors.border}
-
-overline-size = 2
-overline-color = ${self.background}
-underline-size = 2
-underline-color = ${colors.background}
-
-padding-left = 0
-padding-right = 2
-module-margin-left = 3
-module-margin-right = 3
-
-font-0 = ${xrdb:polybar.font-0:Noto Sans Nerd Font:size=10}
-font-1 = ${xrdb:polybar.font-1:Unifont:size=8}
-
-modules-left = i3 xwindow
-modules-center =
-modules-right = wired-ip-primary wired-ip-secondary wired-ip-tertiary wireless-network temperature cpu memory filesystem backlight battery volume worktime clock keyboard powermenu
-
-cursor-click = pointer
 
 ; --------------------------------------------------------------------------- ;
 
@@ -270,7 +174,7 @@ animation-charging-framerate = 333
 
 [module/wireless-network]
 type = internal/network
-interface = ${xrdb:machine.wifi}
+interface = ${machine.wifi}
 interval = 2.0
 ping-interval = 10
 
@@ -316,21 +220,6 @@ format =   <label>
 label = %{F#a89984}%date%%{F-}   %time%
 label-foreground = ${palette.white}
 
-[module/worktime]
-type = custom/script
-interval = 1
-
-; Symbols: timer=0xfa1a
-format = 祥  <label>
-label = %output%
-
-exec-if = test -f ~/.cache/worktime/begin
-exec = worktime -f lemonbar $(cat ~/.cache/worktime/args 2>/dev/null) $(cat ~/.cache/worktime/begin)
-click-left = echo "-d" > ~/.cache/worktime/args
-click-right = echo "" > ~/.cache/worktime/args
-double-click-left = echo "-d -p 0m" > ~/.cache/worktime/args
-double-click-right = echo "-p 0m" > ~/.cache/worktime/args
-
 [module/xwindow]
 type = internal/xwindow
 label-maxlen = 75
@@ -349,20 +238,20 @@ label-close = ﰸ
 label-separator = " | "
 
 menu-0-0 = Lock
+menu-0-0-exec = ~/.local/bin/xlock
 menu-0-0-foreground = ${colors.accent}
-menu-0-0-exec = i3lock -f -t -c 000000 -i ${xrdb:i3.lock-image:~/.local/share/i3lock/default.png}
 menu-0-1 = Logoff
+menu-0-1-exec = /usr/bin/i3-msg quit
 menu-0-1-foreground = ${colors.accent}
-menu-0-1-exec = i3-msg quit
 menu-0-2 = Suspend
+menu-0-2-exec = /usr/bin/suspend
 menu-0-2-foreground = ${colors.accent}
-menu-0-2-exec = suspend
 menu-0-3 = Reboot
+menu-0-3-exec = /usr/bin/reboot
 menu-0-3-foreground = ${colors.accent}
-menu-0-3-exec = reboot
 menu-0-4 = Power Off
+menu-0-4-exec = /usr/bin/poweroff
 menu-0-4-foreground = ${colors.accent}
-menu-0-4-exec = poweroff
 
 [module/filesystem]
 type = internal/fs
@@ -395,7 +284,7 @@ ramp-capacity-7 = ▁
 
 [module/wired-ip-primary]
 type = internal/network
-interface = ${xrdb:machine.ethernet-primary}
+interface = ${machine.ethernet-primary}
 interval = 2.0
 
 ; Symbols: connected=0xf700 disconnected=0xf701
@@ -407,7 +296,7 @@ label-disconnected-foreground = ${colors.dimmed}
 
 [module/wired-ip-secondary]
 type = internal/network
-interface = ${xrdb:machine.ethernet-secondary}
+interface = ${machine.ethernet-secondary}
 interval = 2.0
 
 ; Symbols: connected=0xf700 disconnected=0xf701
@@ -419,7 +308,7 @@ label-disconnected-foreground = ${colors.dimmed}
 
 [module/wired-ip-tertiary]
 type = internal/network
-interface = ${xrdb:machine.ethernet-tertiary}
+interface = ${machine.ethernet-tertiary}
 interval = 2.0
 
 ; Symbols: connected=0xf700 disconnected=0xf701

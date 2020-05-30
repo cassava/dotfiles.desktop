@@ -153,12 +153,10 @@ set_polybar_mode() {
     fi
     if [[ $mode == "dual" ]]; then
         echo "Set polybar mode: dual"
-        rm -f $rundir/solo
-        touch $rundir/dual
+        echo "dual" > $rundir/mode
     else
         echo "Set polybar mode: solo"
-        rm -f $rundir/dual
-        touch $rundir/solo
+        echo "solo" > $rundir/mode
     fi
 }
 
