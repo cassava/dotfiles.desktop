@@ -1,8 +1,27 @@
 #!/bin/bash
 
-echo "Load US keyboard layout"
-setxkbmap -layout us -variant altgr-intl -option terminate:ctrl_alt_bksp,caps:escape,grp:rctrl_toggle,compose:sclk
-if [ -f ~/.Xmodmap ]; then
-    echo "Load ~/.Xmodmap"
-    xmodmap ~/.Xmodmap
+load_default() {
+    echo "Load default keyboard layout"
+    setxkbmap -layout us -variant altgr-intl -option terminate:ctrl_alt_bksp,caps:escape,grp:rctrl_toggle,compose:sclk
+}
+
+apply_xkbmap() {
+    if [ -f ~/.Xkbmap ]; then
+        echo "Apply ~/.Xkbmap"
+        setxkbmap $(cat ~/.Xkbmap)
+    fi
+}
+
+apply_xmodmap() {
+    if [ -f ~/.Xmodmap ]; then
+        echo "Apply ~/.Xmodmap"
+        xmodmap ~/.Xmodmap
+    fi
+}
+
+if [ ! -f ~/.Xkbmap ]; then
+    load_default
 fi
+
+apply_xkbmap
+apply_xmodmap

@@ -9,6 +9,7 @@
 
 - link:
     ~/.dmrc: _dmrc
+    ~/.Xkbmap: _Xkbmap
     ~/.Xmodmap: _Xmodmap
     ~/.xprofile: _xprofile
     ~/.Xresources: _Xresources
