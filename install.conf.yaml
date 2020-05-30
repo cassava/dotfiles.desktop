@@ -21,6 +21,7 @@
       glob: true
       create: true
     ~/.local/share/i3lock: _local/share/i3lock
+    ~/.local/share/xlock: _local/share/xlock
     ~/.local/share/xdefaults/colors:
       path: _local/share/xdefaults/colors/*
       glob: true
@@ -42,6 +43,7 @@
         dunst                  \
         i3-wm                  \
         i3lock                 \
+        imagemagick            \
         nerd-fonts-complete    \
         nitrogen               \
         polybar                \
@@ -52,6 +54,7 @@
         urxvt-perls            \
         xcursor-vanilla-dmz    \
         xorg-xmodmap           \
+        xorg-xdpyinfo          \
       || true
     stdin: true
     stdout: true

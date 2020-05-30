@@ -1,0 +1,17 @@
+#!/bin/bash
+
+default_image="${HOME}/.local/share/xlock/default.png"
+default_bg="#170420"
+
+get_monitor_dimensions() {
+    xdpyinfo | grep dimensions | sed -nr 's/^.* ([0-9]+x[0-9]+) pixels .*$/\1/p'
+}
+
+lock_with_default() {
+    # Create correctly sized lock screen image
+    convert "$default_image" -gravity center -background $default_bg -extent $(get_monitor_dimensions) /tmp/xlock.png
+
+    i3lock -f -t -c 000000 -i /tmp/xlock.png
+}
+
+lock_with_default
