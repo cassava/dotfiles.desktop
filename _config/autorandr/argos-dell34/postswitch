@@ -2,7 +2,8 @@
 
 source $(dirname $0)/../common.sh
 
+load_machine_defaults
+set_i3_gaps 10 2 2
 set_polybar_mode solo
 set_polybar_options 32 12 9
-set_i3_gaps 10 2 2
 postswitch 110
