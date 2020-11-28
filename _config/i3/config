@@ -233,8 +233,8 @@ assign [class="Pavucontrol"] workspace 10
 
 # SYSTEM ACTIONS ------------------------------------------------------------
 
-bindsym Control+Mod1+Delete exec sudo /usr/bin/reboot
-bindsym Control+Mod1+Mod4+Delete exec sudo /usr/local/sbin/reboot-windows
+bindsym Control+Mod1+Delete exec systemctl reboot
+bindsym Control+Mod1+Mod4+Delete exec systemctl reboot --boot-loader-entry=auto-windows
 
 bindsym $mod+Print exec /usr/bin/scrot
 bindsym $mod+Shift+Print exec /usr/bin/scrot -s
