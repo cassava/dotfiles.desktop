@@ -73,10 +73,10 @@ bindsym $mod+z focus child
 bindsym $mod+Tab workspace back_and_forth
 
 # move between workspaces
-bindsym $mod+Left workspace prev
-bindsym $mod+Right workspace next
-bindsym $mod+Shift+Left move container to workspace prev
-bindsym $mod+Shift+Right move container to workspace next
+bindsym $mod+PageUp workspace prev
+bindsym $mod+PageDown workspace next
+bindsym $mod+Shift+PageUp move container to workspace prev
+bindsym $mod+Shift+PageDown move container to workspace next
 
 # change focus across outputs
 bindsym $alt+Tab focus output right
@@ -251,6 +251,10 @@ bindsym XF86AudioPlay exec /usr/bin/mpc toggle
 bindsym XF86AudioPrev exec /usr/bin/mpc prev
 bindsym XF86AudioNext exec /usr/bin/mpc next
 bindsym XF86AudioStop exec /usr/bin/mpc stop
+bindsym $mod+Up exec /usr/bin/mpc toggle
+bindsym $mod+Down exec /usr/bin/mpc stop
+bindsym $mod+Left exec /usr/bin/mpc prev
+bindsym $mod+Right exec /usr/bin/mpc next
 
 # volume adjustments for default sink
 bindsym XF86AudioRaiseVolume exec /usr/bin/pamixer --allow-boost --increase 5
