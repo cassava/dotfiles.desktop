@@ -79,10 +79,23 @@ get_monitor_resolution() {
     xrandr | grep -F "$monitor" | sed -r 's/^.*\b([0-9]+x[0-9]+)\b.*$/\1/'
 }
 
+# Usage: get_primary_monitor
+get_primary_monitor() {
+    xrandr | sed -nr 's/^([^ ]+) connected primary .*$/\1/p'
+}
+
+# Usage: get_secondary_monitor
+get_secondary_monitor() {
+    xrandr | sed -nr 's/^([^ ]+) connected \d.*$/\1/p'
+}
+
 # Usage: set_machine_monitors [PRIMARY MONITOR] [SECONDARY MONITOR]
 set_machine_monitors() {
-    local primary=${1-$(xrdb_query machine.monitor-primary)}
-    local secondary=${2-$(xrdb_query machine.monitor-secondary)}
+    local primary=${1-$(get_primary_monitor)}
+    local secondary=${2-$(get_secondary_monitor)}
+    if [ -z $secondary ]; then
+        secondary=$primary
+    fi
 
     set_i3lock_image "$primary"
     xrdb -merge <<EOF

@@ -3,6 +3,7 @@
 source $(dirname $0)/../common.sh
 
 load_machine_defaults
+set_machine_monitors
 set_i3_gaps 4 2 2
 set_monitors DP-3-2 DP-3-1
 set_polybar_mode dual

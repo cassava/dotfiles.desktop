@@ -26,6 +26,7 @@
       path: _local/share/xdefaults/colors/*
       glob: true
       create: true
+    ~/.local/share/alacritty: _local/share/alacritty
     ~/.local/share/xdefaults/machine:
       path: _local/share/xdefaults/machine/*
       glob: true

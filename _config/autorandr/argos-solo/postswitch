@@ -8,7 +8,7 @@ source $(dirname $0)/../common.sh
 
 echo "---"
 load_machine_defaults
-set_machine_monitors DP-3 DP-3
+set_machine_monitors eDP-1
 set_i3_gaps 3 0 1
 set_polybar_mode solo
 set_polybar_options 36 12 9
