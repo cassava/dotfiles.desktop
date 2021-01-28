@@ -82,6 +82,7 @@
         scrot                  \
         thunar                 \
         vlc                    \
+        xdotool                \
         xorg-xkill             \
         xorg-xset              \
       || true
