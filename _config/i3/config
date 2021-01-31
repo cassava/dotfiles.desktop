@@ -226,6 +226,7 @@ for_window [title="Waveform"] border pixel $border_width
 
 # editor
 bindsym $mod+n exec /usr/bin/medit
+bindsym $mod+Shift+n exec /usr/bin/alacritty -e nvim +GhostStart
 
 # audio
 bindsym $mod+backslash exec /usr/bin/pavucontrol; [class="Pavucontrol"] focus
