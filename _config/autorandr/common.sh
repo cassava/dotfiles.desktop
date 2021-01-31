@@ -43,11 +43,14 @@
 #   set_polybar_options
 postswitch() {
     local dpi=${1:-96}
+    local set_wallpaper=${2-true}
 
     set_monitor_dpi $dpi
     set_alacritty_link $dpi
-    reset_monitor_background
     reset_keyboard
+    if $set_wallpaper; then
+        set_default_background
+    fi
     reset_i3
 }
 
@@ -212,14 +215,24 @@ set_alacritty_link() {
     fi
 }
 
-# Usage: reset_monitor_background
-reset_monitor_background() {
-    echo "Restore wallpaper"
+# Usage: set_default_background
+set_default_background() {
+    echo "Set default wallpaper(s)"
     nitrogen --restore
+}
+
+# Usage: set_random_background <MONITOR>
+set_random_background() {
+    local monitor="$1"
+    local resolution_dir="$HOME/.local/share/backgrounds/$(get_monitor_resolution "$monitor")"
+
+    echo "Set $monitor wallpaper from: $resolution_dir"
+    feh --no-fehbg --bg-fill --randomize "$resolution_dir"
 }
 
 # Usage: reset_keyboard
 reset_keyboard() {
+    echo "Load keyboard settings"
     ~/.local/bin/xsetup-keyboard
 }
 
