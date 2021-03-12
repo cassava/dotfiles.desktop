@@ -2,8 +2,4 @@
 # .xprofile
 #
 
-autorandr --default solo -c --force
-
-~/.local/bin/xsetup-keyboard
-
 export QT_AUTO_SCREEN_SCALE_FACTOR=0

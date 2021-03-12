@@ -73,10 +73,10 @@ bindsym $mod+z focus child
 bindsym $mod+Tab workspace back_and_forth
 
 # move between workspaces
-bindsym $mod+PageUp workspace prev
-bindsym $mod+PageDown workspace next
-bindsym $mod+Shift+PageUp move container to workspace prev
-bindsym $mod+Shift+PageDown move container to workspace next
+bindsym $mod+$alt+Prior workspace prev
+bindsym $mod+$alt+Next workspace next
+bindsym $mod+$alt+Shift+Prior move container to workspace prev
+bindsym $mod+$alt+Shift+Next move container to workspace next
 
 # change focus across outputs
 bindsym $alt+Tab focus output right
@@ -294,6 +294,9 @@ client.background       #212121
 #                                            AUTOSTART                                            #
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Auto-detect current monitor setup
+exec --no-startup-id autorandr --default solo -c --force
 
 # Composite manager
 exec --no-startup-id picom -f --config $HOME/.config/i3/picom.conf
