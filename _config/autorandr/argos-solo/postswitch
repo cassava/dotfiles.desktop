@@ -5,6 +5,7 @@
 #
 
 source $(dirname $0)/../common.sh
+monitor_id="eDP-1"
 
 echo "---"
 load_machine_defaults
@@ -12,4 +13,5 @@ set_machine_monitors eDP-1
 set_i3_gaps 3 0 1
 set_polybar_mode solo
 set_polybar_options 36 12 9
-postswitch 144
+set_random_background $monitor_id
+postswitch 144 false
