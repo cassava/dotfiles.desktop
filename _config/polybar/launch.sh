@@ -25,14 +25,18 @@ killall_polybars() {
     while pgrep -u $UID -x polybar >/dev/null; do sleep .5; done
 }
 
-# Start a 
 run_polybar() {
     local bar=$1
+    local config="${runtime_dir}/config"
+
+    echo "Generating config: ${config}"
+    cat "${default_config}" "${host_config}" > "${config}"
 
     echo "Starting polybar $bar"
-    polybar -c <(cat "$default_config" "$host_config") $bar &
+    polybar -c "${config}" $bar &
 }
 
+mkdir -p "${runtime_dir}"
 killall_polybars
 if is_mode_dual; then
     run_polybar dual-primary

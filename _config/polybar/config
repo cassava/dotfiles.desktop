@@ -253,7 +253,7 @@ menu-0-4 = Power Off
 menu-0-4-exec = /usr/bin/poweroff
 menu-0-4-foreground = ${colors.accent}
 
-[module/filesystem]
+[module/fs-root]
 type = internal/fs
 spacing = 4
 
@@ -261,6 +261,35 @@ mount-0 = /
 
 format-mounted = <label-mounted> <ramp-capacity>
 label-mounted = %mountpoint%
+label-mounted-foreground = ${colors.dimmed}
+
+format-unmounted =
+
+ramp-capacity-0-foreground = ${palette.red}
+ramp-capacity-0 = █
+ramp-capacity-1-foreground = ${palette.orange}
+ramp-capacity-1 = ▇
+ramp-capacity-2-foreground = ${palette.yellow}
+ramp-capacity-2 = ▆
+ramp-capacity-3-foreground = ${palette.yellow}
+ramp-capacity-3 = ▅
+ramp-capacity-4-foreground = ${palette.green}
+ramp-capacity-4 = ▄
+ramp-capacity-5-foreground = ${palette.green}
+ramp-capacity-5 = ▃
+ramp-capacity-6-foreground = ${palette.green}
+ramp-capacity-6 = ▂
+ramp-capacity-7-foreground = ${palette.green}
+ramp-capacity-7 = ▁
+
+[module/fs-home]
+type = internal/fs
+spacing = 4
+
+mount-0 = /home
+
+format-mounted = <label-mounted> <ramp-capacity>
+label-mounted = 
 label-mounted-foreground = ${colors.dimmed}
 
 format-unmounted =
