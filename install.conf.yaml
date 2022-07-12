@@ -1,6 +1,10 @@
 - defaults:
     link:
       relink: true
+    shell:
+      stdin: true
+      stdout: true
+      stderr: true
 
 - clean:
     - ~/
@@ -34,62 +38,38 @@
 
 # Arch Linux packages
 - shell:
+  - description: Install paru (Arch)
+    command: >
+      test -x /usr/bin/pacman && (
+        test -x /usr/bin/paru || (
+          mkdir -p ~/.local/abs/ &&
+          cd ~/.local/abs/ &&
+          git clone https://aur.archlinux.org/paru.git &&
+          cd paru &&
+          makepkg -csi
+        )
+      ) || true
+
+  - description: Update package database (Arch)
+    command: >
+      test -x /usr/bin/paru && paru -Syu || true
+
   - description: Install core packages (Arch)
-    command: >
-      test -x /usr/bin/pacman &&
-      sudo pacman -Sy --needed \
-        alacritty              \
-        autorandr              \
-        dapper                 \
-        dunst                  \
-        feh                    \
-        i3-gaps                \
-        i3lock                 \
-        imagemagick            \
-        nerd-fonts-complete    \
-        nitrogen               \
-        polybar                \
-        picom                  \
-        rofi                   \
-        rxvt-unicode           \
-        rxvt-unicode-terminfo  \
-        unclutter              \
-        urxvt-perls            \
-        xcursor-vanilla-dmz    \
-        xorg-xmodmap           \
-        xorg-xdpyinfo          \
-      || true
-    stdin: true
-    stdout: true
-    stderr: true
+    command: |
+      test -x /usr/bin/paru && (
+      sed -re 's/ *//' -e '/^#/d' <<EOF | sudo paru -S --needed -
+      EOF
+      ) || true
+
   - description: Install extra packages (Arch)
-    command: >
-      test -x /usr/bin/pacman &&
-      sudo pacman -Sy --needed \
-        cantata                \
-        chromium               \
-        evince                 \
-        firefox                \
-        firefox-passff         \
-        light                  \
-        lightdm                \
-        lightdm-gtk-greeter    \
-        mc                     \
-        mpc                    \
-        mpd                    \
-        pamixer                \
-        passff-host            \
-        pavucontrol            \
-        scrot                  \
-        thunar                 \
-        vlc                    \
-        xdotool                \
-        xorg-xkill             \
-        xorg-xset              \
-      || true
-    stdin: true
-    stdout: true
-    stderr: true
+    command: |
+      test -x /usr/bin/paru && (
+      sed -re 's/ *//' -e '/^#/d' -e '/^$/d' <<EOF | sudo paru -S --needed -
+      ) || true
+
+  - description: Enable services (Arch)
+    command:
+      systemctl --user enable pipewire wireplumber mpd
 
 # Ubuntu Bionic packages
 #
@@ -106,20 +86,6 @@
       test -x /usr/bin/apt    &&
       sudo apt update         &&
       sudo apt install         \
-        autorandr              \
-        dmz-cursor-theme       \
-        dunst                  \
-        feh                    \
-        i3-gaps                \
-        i3-gaps-wm             \
-        i3lock                 \
-        nitrogen               \
-        rofi                   \
-        rxvt-unicode           \
-        unclutter-xfixes       \
-        unifont                \
-        x11-xserver-utils      \
-        x11-utils              \
       || true
     stdin: true
     stdout: true
