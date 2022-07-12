@@ -347,6 +347,12 @@ label-connected-foreground = ${colors.dimmed}
 label-disconnected = 
 label-disconnected-foreground = ${colors.dimmed}
 
+[module/bluetooth]
+type = custom/script
+exec = /usr/share/polybar/scripts/system-bluetooth-bluetoothctl.sh
+tail = true
+click-left = /usr/share/polybar/scripts/system-bluetooth-bluetoothctl.sh --toggle &
+
 [module/temperature]
 type = internal/temperature
 interval = 0.5
