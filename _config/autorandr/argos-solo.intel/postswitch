@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source $(dirname $0)/../monitors.sh
-apply_dell34
+apply_internal14 eDP1
