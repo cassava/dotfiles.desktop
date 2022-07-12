@@ -2,6 +2,6 @@
 !
 
 machine.hostname: argos
-machine.monitor-internal: eDP-1
+machine.monitor-internal: eDP1
 machine.ethernet-primary: enp0s31f6
-machine.wifi: wlp3s0
+machine.wifi: wlan0
