@@ -95,8 +95,9 @@ bindsym $mod+bracketleft split vertical
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout tabbed stacking
+# change container layout (stacking, tabbed, toggle split)
+bindsym $mod+s layout tabbed
+bindsym $mod+Shift+s layout stacking
 bindsym $mod+d layout toggle split
 
 # toggle tiling / floating
@@ -194,12 +195,23 @@ for_window [class="Chromium" title="Chromium$"] border pixel $border_width
 # browser/firefox
 bindsym $mod+i exec /usr/bin/firefox; [class="Firefox"] focus
 bindsym $mod+Shift+i [class="Firefox"] focus
-assign [class="Firefox" title="Mozilla Firefox$"] workspace 6
-for_window [class="Firefox" title="Mozilla Firefox$"] border pixel $border_width
-for_window [class="Firefox" title="Mozilla Firefox \(Private Browsing\)$"] border pixel $border_width
+assign [class="firefox" title="Mozilla Firefox$"] workspace 6
+for_window [class="firefox" title="Mozilla Firefox$"] border pixel $border_width
+for_window [class="firefox" title="Mozilla Firefox \(Private Browsing\)$"] border pixel $border_width
+
+# mail/thunderbird
+bindsym $mod+o exec /usr/bin/thunderbird; [class="Thunderbird"] focus
+bindsym $mod+Shift+o [class="Thunderbird"] focus
+assign [class="Thunderbird"] workspace 7
+for_window [class="Thunderbird" title="Mozilla Thunderbird$"] border pixel $border_width
+
+# communication
+bindsym $mod+p exec /usr/bin/signal-desktop
+bindsym $mod+Shift+p [class="Signal"] focus
+assign [class="Signal"] workspace 8
 
 # file browser
-bindsym $mod+semicolon exec /usr/bin/thunar
+bindsym $mod+semicolon exec /usr/bin/nemo
 bindsym $mod+Shift+semicolon exec $terminal -e /usr/bin/mc
 
 # media/ardour
@@ -270,8 +282,8 @@ bindsym XF86MonBrightnessUp exec "/usr/bin/light -A 5"
 
 bindsym XF86Display exec "/usr/bin/autorandr -c"
 bindsym XF86WebCam exec "/usr/bin/cheese"
-bindsym XF86TouchpadToggle exec "/usr/bin/synclient TouchpadOff=`/usr/bin/synclient -l | /usr/bin/grep -ce 'TouchpadOff.*0'`"
-bindsym XF86WLAN exec "/usr/bin/connmanctl enable offline && /usr/bin/connmanctl disable offline"
+bindsym XF86TouchpadToggle exec "~/.local/bin/toggle-touchpad"
+bindsym XF86WLAN exec "~/.local/bin/toggle-wifi"
 
 # Break, Fn+B
 bindsym Break exec true
@@ -297,9 +309,6 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Auto-detect current monitor setup
 exec --no-startup-id autorandr --default solo -c --force
-
-# Composite manager
-exec --no-startup-id picom -f --config $HOME/.config/i3/picom.conf
 
 # Hide the mouse pointer if unused for a duration
 exec --no-startup-id unclutter -b
