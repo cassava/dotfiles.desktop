@@ -10,6 +10,7 @@
     - ~/
     - ~/.config
     - ~/.local/bin
+    - ~/.xkb/symbols
 
 - link:
     ~/.dmrc: _dmrc
@@ -17,6 +18,9 @@
     ~/.Xmodmap: _Xmodmap
     ~/.xprofile: _xprofile
     ~/.Xresources: _Xresources
+    ~/.xkb/symbols/usi:
+      path: _xkb/symbols/usi
+      create: true
     ~/.config:
       path: _config/*
       glob: true
